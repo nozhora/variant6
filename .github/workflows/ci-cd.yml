@@ -39,7 +39,7 @@ jobs:
       - name: Run unit tests
         run: npm test
 
-  stage-mock:
+  stage:
     name: Deploy to Stage (Mock)
     runs-on: ubuntu-latest
     needs: unit-tests
@@ -74,11 +74,11 @@ jobs:
       - name: Build application
         run: npm run build
       
-      - name: Mock stage deployment
+      
+      - name: Trigger Render Deploy Hook
+        if: success()
         run: |
-          echo "Deploying to staging environment..."
-          echo "Stage URL: https://staging.example.com"
-          echo "Deployment completed successfully"
+           curl -X POST ${{ secrets.HOOK }}
 
   integration-tests:
     name: Run Integration Tests
@@ -109,11 +109,10 @@ jobs:
       - name: Run integration tests
         run: npm run test:e2e
 
-  deploy-mock:
+  deploy:
     name: Deploy to Production (Mock)
     runs-on: ubuntu-latest
     needs: integration-tests
-    if: github.ref == 'refs/heads/main'
     
     steps:
       - name: Checkout code
