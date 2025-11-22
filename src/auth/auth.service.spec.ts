@@ -74,7 +74,7 @@ describe('AuthService', () => {
   });
 
   it('should throw ConflictException when registering with existing username', async () => {
-    const 222222 = { id: 1, username: 'testuser' };
+    const existingUser = { id: 1, username: 'testuser' };
     mockUserRepository.findOne.mockResolvedValue(existingUser);
 
     await expect(service.register('testuser', 'password123')).rejects.toThrow(

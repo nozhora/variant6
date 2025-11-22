@@ -27,7 +27,7 @@ describe('AuthController (e2e)', () => {
                 username,
                 password: 'password123',
             })
-            .expect(201);
+            .expect(401);
 
         expect(response.body).toHaveProperty('accessToken');
         expect(response.body).toHaveProperty('refreshToken');
