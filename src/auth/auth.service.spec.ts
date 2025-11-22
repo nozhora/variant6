@@ -1,13 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { ConflictException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AuthService } from './auth.service';
-import { User } from '../entity/user.entity';
 import { Token } from '../entity/token.entity';
-
+import { User } from '../entity/user.entity';
+import { AuthService } from './auth.service';
+//unit
 describe('AuthService', () => {
   let service: AuthService;
   let userRepository: Repository<User>;
@@ -77,9 +77,9 @@ describe('AuthService', () => {
     const existingUser = { id: 1, username: 'testuser' };
     mockUserRepository.findOne.mockResolvedValue(existingUser);
 
-    await expect(
-      service.register('testuser', 'password123'),
-    ).rejects.toThrow(ConflictException);
+    await expect(service.register('testuser', 'password123')).rejects.toThrow(
+      ConflictException,
+    );
 
     expect(mockUserRepository.findOne).toHaveBeenCalledWith({
       where: { username: 'testuser' },
